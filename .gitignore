@@ -1,0 +1,9 @@
+# 공통 무시 항목
+node_modules/
+dist/
+.env
+
+# 로그 및 기타
+*.log
+.DS_Store
+.vscode/
