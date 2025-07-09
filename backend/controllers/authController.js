@@ -9,7 +9,7 @@ export const login = async (req, res) => {
     try {
         const [rows] = await pool.query('SELECT * FROM users WHERE student_id = ?', [student_id])
         const user = rows[0]
-        if (!user) return res.state(401).json({message : "존재하지 않는 사용자입니다."})
+        if (!user) return res.status(401).json({message : "존재하지 않는 사용자입니다."})
         
         const isMatch = await bcrypt.compare(password, user.password)
         if (!isMatch) return res.status(401).json({message : "비밀번호가 틀렸습니다."})
@@ -28,8 +28,8 @@ export const register = async (req, res) => {
 
     try {
         const hashedPw = await bcrypt.hash(password, 10)
-        const sql = 'INSERT INTO users {student_id, password} VALUES {? , ?}'
-        await pool.query(sql, [ student_id, hashedPw])
+        const sql = 'INSERT INTO users (student_id, password) VALUES (?, ?)' 
+        await pool.query(sql, [ student_id, hashedPw ])
         res.status(201).json({ message : '회원가입 성공 '})
     } catch (err) {
         console.log(err)
